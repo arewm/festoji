@@ -7,7 +7,7 @@ on:
 
 env:
   IMAGE_REGISTRY: quay.io
-  IMAGE_REPO: lucarval/festoji
+  # IMAGE_REPO: lucarval/festoji
   IMAGE_TAGS: latest
 
 jobs:
