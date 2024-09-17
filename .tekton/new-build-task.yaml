@@ -1,0 +1,20 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  labels:
+    app.kubernetes.io/version: "0.1"
+  annotations:
+    tekton.dev/pipelines.minVersion: "0.12.1"
+    tekton.dev/tags: "konflux"
+  name: new-build-task
+spec:
+  description: >-
+    This task doesn't actually do anything. It is just an example for how easy
+    it is to add new tasks to your pipeline (for example new build tasks)
+  steps:
+  - name: inspect-image
+    image: quay.io/konflux-ci/buildah-task:0.2
+    script: |
+      #!/usr/bin/env bash
+      echo "You can do whatever you want to support the novel functionality"
