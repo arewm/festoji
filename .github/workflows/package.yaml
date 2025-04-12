@@ -24,13 +24,13 @@ jobs:
       digest: ${{ steps.push-image.outputs.digest }}
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Install Cosign
       uses: sigstore/cosign-installer@main
 
     - name: Install Syft
-      uses: anchore/sbom-action/download-syft@v0.14.3
+      uses: anchore/sbom-action/download-syft@v0.18.0
 
     - name: Log in to Red Hat Registry
       uses: redhat-actions/podman-login@v1
