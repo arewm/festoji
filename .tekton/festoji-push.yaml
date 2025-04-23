@@ -194,6 +194,12 @@ spec:
         workspace: git-auth
       - name: netrc
         workspace: netrc
+    - name: sample-new-build-task
+      taskRef:
+        kind: Task
+        name: new-build-task
+      runAfter:
+        - clone-repository
     - name: build-container
       params:
       - name: IMAGE
