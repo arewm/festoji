@@ -114,6 +114,15 @@ spec:
         VMs
       name: privileged-nested
       type: string
+    - default: trusted-ca
+      description: The name of the ConfigMap to read CA bundle data from
+      name: ca-trust-config-map-name
+      type: string
+    - default: ca-bundle.crt
+      description: The name of the key in the ConfigMap that contains the CA bundle
+        data
+      name: ca-trust-config-map-key
+      type: string
     results:
     - description: ""
       name: IMAGE_URL
@@ -288,9 +297,9 @@ spec:
       - name: BUILDAH_FORMAT
         value: $(params.buildah-format)
       - name: caTrustConfigMapName
-        value: trusted-ca
+        value: $(params.ca-trust-config-map-name)
       - name: caTrustConfigMapKey
-        value: ca-bundle.crt
+        value: $(params.ca-trust-config-map-key)
       runAfter:
       - build-container
       taskRef:
@@ -313,10 +322,10 @@ spec:
         value: $(tasks.build-image-index.results.IMAGE_DIGEST)
       - name: image-url
         value: $(tasks.build-image-index.results.IMAGE_URL)
-      - name: caTrustConfigMapName
-        value: trusted-ca
-      - name: caTrustConfigMapKey
-        value: ca-bundle.crt
+      - name: ca-trust-config-map-name
+        value: $(params.ca-trust-config-map-name)
+      - name: ca-trust-config-map-key
+        value: $(params.ca-trust-config-map-key)
       runAfter:
       - build-image-index
       taskRef:
@@ -343,10 +352,10 @@ spec:
         value: $(tasks.build-image-index.results.IMAGE_DIGEST)
       - name: image-url
         value: $(tasks.build-image-index.results.IMAGE_URL)
-      - name: caTrustConfigMapName
-        value: trusted-ca
-      - name: caTrustConfigMapKey
-        value: ca-bundle.crt
+      - name: ca-trust-config-map-name
+        value: $(params.ca-trust-config-map-name)
+      - name: ca-trust-config-map-key
+        value: $(params.ca-trust-config-map-key)
       runAfter:
       - build-image-index
       taskRef:
@@ -354,7 +363,7 @@ spec:
         - name: name
           value: trivy-sbom-scan
         - name: bundle
-          value: quay.io/arewm/task-trivy-sbom-scan:0.1@sha256:cb25b043914fcffe6b45df784f18fdb4066076ff01a00a3c0b7e62bd20707faf
+          value: quay.io/arewm/task-trivy-sbom-scan:0.1@sha256:04570df1b82054f019736f2251214b8f44000fdebed15873f83f0c3e8882592b
         - name: kind
           value: task
         resolver: bundles
@@ -399,6 +408,10 @@ spec:
         value: $(tasks.build-image-index.results.IMAGE_URL)
       - name: IMAGE_DIGEST
         value: $(tasks.build-image-index.results.IMAGE_DIGEST)
+      - name: CA_TRUST_CONFIG_MAP_NAME
+        value: $(params.ca-trust-config-map-name)
+      - name: CA_TRUST_CONFIG_MAP_KEY
+        value: $(params.ca-trust-config-map-key)
       runAfter:
       - build-image-index
       taskRef:
