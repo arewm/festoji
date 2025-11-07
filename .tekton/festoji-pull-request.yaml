@@ -27,6 +27,10 @@ spec:
     value: registry-service.kind-registry/konflux-festoji:on-pr-{{revision}}
   - name: image-expires-after
     value: 5d
+  - name: enable-clair-scan
+    value: "true"
+  - name: enable-trivy-sbom-scan
+    value: "true"
   - name: dockerfile
     value: Dockerfile
   - name: path-context
@@ -65,6 +69,14 @@ spec:
     - default: "false"
       description: Skip checks against built image
       name: skip-checks
+      type: string
+    - default: "true"
+      description: Enable trivy sbom scan
+      name: enable-trivy-sbom-scan
+      type: string
+    - default: "true"
+      description: Enable clair scan
+      name: enable-clair-scan
       type: string
     - default: "false"
       description: Execute the build with network isolation
@@ -278,6 +290,10 @@ spec:
         - $(tasks.build-container.results.IMAGE_URL)@$(tasks.build-container.results.IMAGE_DIGEST)
       - name: BUILDAH_FORMAT
         value: $(params.buildah-format)
+      - name: ca-trust-config-map-name
+        value: trusted-ca
+      - name: ca-trust-config-map-key
+        value: ca-bundle.crt
       runAfter:
       - build-container
       taskRef:
@@ -300,6 +316,10 @@ spec:
         value: $(tasks.build-image-index.results.IMAGE_DIGEST)
       - name: image-url
         value: $(tasks.build-image-index.results.IMAGE_URL)
+      - name: ca-trust-config-map-name
+        value: trusted-ca
+      - name: ca-trust-config-map-key
+        value: ca-bundle.crt
       runAfter:
       - build-image-index
       taskRef:
@@ -316,12 +336,20 @@ spec:
         operator: in
         values:
         - "false"
+      - input: $(params.enable-clair-scan)
+        operator: in
+        values:
+        - "true"
     - name: trivy-sbom-scan
       params:
       - name: image-digest
         value: $(tasks.build-image-index.results.IMAGE_DIGEST)
       - name: image-url
         value: $(tasks.build-image-index.results.IMAGE_URL)
+      - name: ca-trust-config-map-name
+        value: trusted-ca
+      - name: ca-trust-config-map-key
+        value: ca-bundle.crt
       runAfter:
       - build-image-index
       taskRef:
@@ -338,6 +366,10 @@ spec:
         operator: in
         values:
         - "false"
+      - input: $(params.enable-trivy-sbom-scan)
+        operator: in
+        values:
+        - "true"
     - name: sast-shell-check
       params:
       - name: image-digest
