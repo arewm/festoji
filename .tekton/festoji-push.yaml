@@ -298,7 +298,7 @@ spec:
         - name: name
           value: build-image-index
         - name: bundle
-          value: quay.io/konflux-ci/tekton-catalog/task-build-image-index:0.1@sha256:60ca793e71ba7abdf024278d6ffe12f35f292ddca3031e3ef2a3f2711203448d
+          value: quay.io/arewm/task-build-image-index@sha256:68f842c105219cd07f316dc049df9caf850644a269ab66b973c48b2926efbf98
         - name: kind
           value: task
         resolver: bundles
