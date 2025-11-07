@@ -290,9 +290,9 @@ spec:
         - $(tasks.build-container.results.IMAGE_URL)@$(tasks.build-container.results.IMAGE_DIGEST)
       - name: BUILDAH_FORMAT
         value: $(params.buildah-format)
-      - name: ca-trust-config-map-name
+      - name: caTrustConfigMapName
         value: trusted-ca
-      - name: ca-trust-config-map-key
+      - name: caTrustConfigMapKey
         value: ca-bundle.crt
       runAfter:
       - build-container
@@ -316,9 +316,9 @@ spec:
         value: $(tasks.build-image-index.results.IMAGE_DIGEST)
       - name: image-url
         value: $(tasks.build-image-index.results.IMAGE_URL)
-      - name: ca-trust-config-map-name
+      - name: caTrustConfigMapName
         value: trusted-ca
-      - name: ca-trust-config-map-key
+      - name: caTrustConfigMapKey
         value: ca-bundle.crt
       runAfter:
       - build-image-index
@@ -346,9 +346,9 @@ spec:
         value: $(tasks.build-image-index.results.IMAGE_DIGEST)
       - name: image-url
         value: $(tasks.build-image-index.results.IMAGE_URL)
-      - name: ca-trust-config-map-name
+      - name: caTrustConfigMapName
         value: trusted-ca
-      - name: ca-trust-config-map-key
+      - name: caTrustConfigMapKey
         value: ca-bundle.crt
       runAfter:
       - build-image-index
