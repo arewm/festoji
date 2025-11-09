@@ -28,7 +28,7 @@ spec:
   - name: image-expires-after
     value: 5d
   - name: enable-clair-scan
-    value: "true"
+    value: "false"
   - name: enable-trivy-sbom-scan
     value: "true"
   - name: dockerfile
@@ -74,7 +74,7 @@ spec:
       description: Enable trivy sbom scan
       name: enable-trivy-sbom-scan
       type: string
-    - default: "true"
+    - default: "false"
       description: Enable clair scan
       name: enable-clair-scan
       type: string
