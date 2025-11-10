@@ -1,0 +1,48 @@
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  annotations:
+    build.appstudio.openshift.io/repo: https://github.com/arewm/festoji?rev={{revision}}
+    build.appstudio.redhat.com/commit_sha: '{{revision}}'
+    build.appstudio.redhat.com/target_branch: '{{target_branch}}'
+    pipelinesascode.tekton.dev/cancel-in-progress: "false"
+    pipelinesascode.tekton.dev/max-keep-runs: "3"
+    pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch
+      == "main"
+  creationTimestamp: null
+  labels:
+    appstudio.openshift.io/application: festoji
+    appstudio.openshift.io/component: festoji
+    pipelines.appstudio.openshift.io/type: build
+  name: festoji-on-push
+  namespace: slsa-e2e-tenant
+spec:
+  params:
+  - name: git-url
+    value: '{{source_url}}'
+  - name: revision
+    value: '{{revision}}'
+  - name: output-image
+    value: quay.io/redhat-user-workloads/slsa-e2e-tenant/festoji:{{revision}}
+  - name: dockerfile
+    value: Dockerfile
+  - name: path-context
+    value: .
+  - name: enable-trivy-sbom-scan
+    value: "true"
+  pipelineRef:
+    params:
+    - name: name
+      value: slsa-e2e-oci-ta
+    - name: bundle
+      value: quay.io/arewm/pipeline-slsa-e2e-oci-ta:e1d1276@sha256:0420bc628d97fdae3ae584504f06eb13195de1f635b7a03dcbf4cf62943f442a
+    - name: kind
+      value: pipeline
+    resolver: bundles
+  taskRunTemplate:
+    serviceAccountName: build-pipeline-festoji
+  workspaces:
+  - name: git-auth
+    secret:
+      secretName: '{{ git_auth_secret }}'
+status: {}
