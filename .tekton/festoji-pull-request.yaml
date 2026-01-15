@@ -16,7 +16,7 @@ metadata:
     appstudio.openshift.io/component: festoji
     pipelines.appstudio.openshift.io/type: build
   name: festoji-on-pull-request
-  namespace: user-ns1
+  namespace: slsa-e2e-tenant
 spec:
   params:
   - name: git-url
