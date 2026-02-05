@@ -2,6 +2,8 @@
 
 Seasonal festive emoji for the day 🎉
 
+<!-- Test pipeline trigger -->
+
 ## Usage
 
 Simply run the golang program:
