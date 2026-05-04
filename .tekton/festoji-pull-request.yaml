@@ -175,10 +175,10 @@ spec:
           value: task
         resolver: bundles
       when:
-      - input: $(tasks.init.results.build)
+      - input: $(params.skip-checks)
         operator: in
         values:
-        - "true"
+        - "false"
       workspaces:
       - name: basic-auth
         workspace: git-auth
@@ -200,10 +200,10 @@ spec:
           value: task
         resolver: bundles
       when:
-      - input: $(tasks.init.results.build)
+      - input: $(params.skip-checks)
         operator: in
         values:
-        - "true"
+        - "false"
       workspaces:
       - name: basic-auth
         workspace: git-auth
@@ -276,10 +276,10 @@ spec:
           value: task
         resolver: bundles
       when:
-      - input: $(tasks.init.results.build)
+      - input: $(params.skip-checks)
         operator: in
         values:
-        - "true"
+        - "false"
     - name: build-image-index
       params:
       - name: IMAGE
@@ -311,10 +311,10 @@ spec:
           value: task
         resolver: bundles
       when:
-      - input: $(tasks.init.results.build)
+      - input: $(params.skip-checks)
         operator: in
         values:
-        - "true"
+        - "false"
     - name: clair-scan
       params:
       - name: image-digest
